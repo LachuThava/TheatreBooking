@@ -1,0 +1,2 @@
+com.mycompany.theatrebookingsystem.MovieCollection$1
+com.mycompany.theatrebookingsystem.MovieCollection
