@@ -24,6 +24,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import static theatrebookingsystem.LoginUI.role_id;
+import static theatrebookingsystem.LoginUI.roles;
 /**
  *
  * @author 2018/E/070
@@ -1124,8 +1126,41 @@ public class MovieCollection extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-       dispose();
-       new MenuForm().setVisible(true);
+       
+        String username = "root";
+        String password = "Lachu123@#";
+         String url = "jdbc:mysql://127.0.0.1:3306/theatre_booking";
+         try{
+               String query3 = "SELECT * FROM roles where role_name=? and role_id=?";
+               Connection connect = DriverManager.getConnection(url,username,password);
+               PreparedStatement ps4 = connect.prepareStatement(query3); //PS1 PREPARED STATEMENT
+               ps4.setString(1,LoginUI.usertext.getText());
+               ps4.setInt(2,role_id);
+               ResultSet rset2 = ps4.executeQuery();
+                
+               if(rset2.next()){
+                 roles = rset2.getString("role_desc");
+                 
+              }
+               System.out.println("role_desc : "+roles);
+              }catch(Exception e){
+                  System.out.println("error in roles");
+              }
+       
+         if(roles.equals("customers")){
+             dispose();
+             MenuForm menu = new MenuForm();
+              menu.jButton5.setEnabled(false);
+              menu.setVisible(true);
+         }else{
+               dispose();
+               new MenuForm().setVisible(true);
+
+         }
+        
+        
+        
+        
     }//GEN-LAST:event_jButton12ActionPerformed
 
     /**

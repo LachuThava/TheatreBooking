@@ -6,6 +6,8 @@
 package theatrebookingsystem;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import static theatrebookingsystem.LoginUI.role_id;
+import static theatrebookingsystem.LoginUI.roles;
 
 /**
  *
@@ -37,6 +39,7 @@ public class ChangePassword extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +59,13 @@ public class ChangePassword extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Change PASSWORD");
+
+        jButton2.setText("<");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,7 +87,9 @@ public class ChangePassword extends javax.swing.JFrame {
                         .addGap(154, 154, 154)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(12, 12, 12)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(31, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,8 +102,10 @@ public class ChangePassword extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(27, 27, 27)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -159,13 +173,46 @@ public class ChangePassword extends javax.swing.JFrame {
                     System.out.println("passwrd is not update");
                 }
                
-                dispose();
-                new MenuForm().setVisible(true);
+         
+        
         }
                
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+         String username = "root";
+         String password = "Lachu123@#";
+         String url = "jdbc:mysql://127.0.0.1:3306/theatre_booking"; 
+        try{
+               String query3 = "SELECT * FROM roles where role_name=? and role_id=?";
+               Connection connect = DriverManager.getConnection(url,username,password);
+               PreparedStatement ps4 = connect.prepareStatement(query3); //PS1 PREPARED STATEMENT
+               ps4.setString(1,LoginUI.usertext.getText());
+               ps4.setInt(2,role_id);
+               ResultSet rset2 = ps4.executeQuery();
+                
+               if(rset2.next()){
+                 roles = rset2.getString("role_desc");
+                 
+              }
+               System.out.println("role_desc : "+roles);
+              }catch(Exception e){
+                  System.out.println("error in roles");
+              }
+       
+         if(roles.equals("customers")){
+             dispose();
+             MenuForm menu = new MenuForm();
+              menu.jButton5.setEnabled(false);
+              menu.setVisible(true);
+         }else{
+               dispose();
+               new MenuForm().setVisible(true);
+
+         }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +251,7 @@ public class ChangePassword extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
